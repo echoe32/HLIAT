@@ -1,0 +1,187 @@
+syntax = "proto3";
+
+package project;
+
+option go_package = "backend/internal/grpc/pb;pb";
+
+service ProjectService {
+    rpc GetStats(GetStatsRequest) returns (GetStatsResponse);
+    rpc Fetch(FetchRequest) returns (FetchResponse);
+    rpc GetAllDeposits(GetAllDepositsRequest) returns (GetAllDepositsResponse);
+    rpc GetDepositByID(GetDepositByIDRequest) returns (GetDepositByIDResponse);
+    rpc GetBonds(GetBondsRequest) returns (GetBondsResponse);
+    rpc Query(QueryRequest) returns (QueryResponse);
+}
+
+message GetStatsRequest {}
+
+message GetStatsResponse {
+    repeated CategoryStat stats = 1;
+}
+
+message CategoryStat {
+    string date = 1;
+    string category = 2;
+    float average_apr = 3;
+    float average_income = 4;
+}
+
+message FetchRequest {}
+
+message FetchResponse {
+    string message = 1;
+}
+
+message GetAllDepositsRequest {}
+
+message GetAllDepositsResponse {
+    repeated Deposit deposits = 1;
+}
+
+message GetDepositByIDRequest {
+    int32 id = 1;
+}
+
+message GetDepositByIDResponse {
+    Deposit deposit = 1;
+}
+
+message GetBondsRequest {
+    string board = 1;
+}
+
+message GetBondsResponse {
+    repeated Bond bonds = 1;
+}
+
+message QueryRequest {
+    int32 sum = 1;
+    int32 count = 2;
+}
+
+message QueryResponse {
+    map<string, ProductList> results = 1;
+}
+
+message ProductList {
+    repeated ProductResult products = 1;
+}
+
+message ProductResult {
+    string type = 1;
+    string secid = 2;
+    string short_name = 3;
+    float yield_to_maturity = 4;
+    float coupon_percent = 5;
+    float coupon_value = 6;
+    float face_value = 7;
+    float last = 8;
+    string mat_date = 9;
+    float earnings = 10;
+    string link = 11;
+    float apr = 12;
+    int32 amount_from = 13;
+    int32 amount_to = 14;
+    bool has_amount_to = 15;
+}
+
+message Deposit {
+    int32 id = 1;
+    string product_url = 2;
+    float rate_min = 3;
+    float rate_max = 4;
+    int32 amount_from = 5;
+    int32 amount_to = 6;
+    bool has_amount_to = 7;
+    int32 period_from = 8;
+    int32 period_to = 9;
+    bool has_period_to = 10;
+    string product_name = 11;
+    string bank_name = 12;
+    string deposit_name = 13;
+    bool is_saving_account = 14;
+    bool is_children_deposit = 15;
+    bool is_pension_deposit = 16;
+    map<string, bool> feature_list = 17;
+    string special_restrictions = 18;
+    bool has_special_restrictions = 19;
+    repeated string special_type_list_names = 20;
+    float efficient_rate = 21;
+    map<string, string> capitalization_periods = 22;
+    bool is_partial_withdrawal_possible = 23;
+    bool is_replenishment_possible = 24;
+    bool is_prolongation_possible = 25;
+    bool has_is_prolongation_possible = 26;
+    int32 prolongation_max = 27;
+    bool has_prolongation_max = 28;
+    string prolongation_comment = 29;
+    bool has_prolongation_comment = 30;
+    string prolongation_comment_html = 31;
+    bool has_prolongation_comment_html = 32;
+    bool is_in_office_opening_possible = 33;
+    string detailed_conditions = 34;
+    bool has_detailed_conditions = 35;
+    bool is_rate_increase_possible = 36;
+    string percent_calculation = 37;
+    bool has_percent_calculation = 38;
+    bool is_new_client = 39;
+    string new_client_comment = 40;
+    bool has_new_client_comment = 41;
+    bool is_new_money = 42;
+    string new_money_comment = 43;
+    bool has_new_money_comment = 44;
+    bool is_key_rate_linked = 45;
+    string key_rate_linked_comment = 46;
+    bool has_key_rate_linked_comment = 47;
+    RatesExtremum rates_extremum = 48;
+}
+
+message RatesExtremum {
+    float min_rate = 1;
+    float max_rate = 2;
+    int32 min_amount = 3;
+    int32 max_amount = 4;
+    bool has_max_amount = 5;
+    int32 min_period = 6;
+    int32 max_period = 7;
+    bool has_max_period = 8;
+    repeated RatesTable rates_table = 9;
+}
+
+message RatesTable {
+    float rate = 1;
+    string from_notation = 2;
+    string to_notation = 3;
+}
+
+message Bond {
+    string isin = 1;
+    string name = 2;
+    string name_short = 3;
+    string type = 4;
+    string list_level = 5;
+    string status = 6;
+    string reg_number = 7;
+    int32 issue_size = 8;
+    int32 list_volume = 9;
+    float min_step = 10;
+    string decimals = 11;
+    string emitent = 12;
+    string mat_date = 13;
+    float initial_face_value = 14;
+    float face_value = 15;
+    float yield_to_maturity = 16;
+    bool has_yield_to_maturity = 17;
+    int32 coupon_period = 18;
+    float coupon_percent = 19;
+    float coupon_value = 20;
+    float accrued_int = 21;
+    string currency = 22;
+    string emitent_title = 23;
+    string emitent_inn = 24;
+    string board_id = 25;
+    string secid = 26;
+    string short_name = 27;
+    float last = 28;
+    bool has_last = 29;
+}
